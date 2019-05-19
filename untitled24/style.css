@@ -1,0 +1,34 @@
+body {
+    font: 14px sans-serif;
+}
+.form-group{
+    width: 350px;
+    padding: 20px;
+    border-width: 3px;
+    border-style: solid;
+    float: left;
+    opacity: 20%;
+    border-radius: 20px;
+}
+.medzera{
+    width: 20px;
+    float: left;
+}
+
+.head{
+    position: fixed;
+    margin-top: 26%;
+    float: right;
+}
+
+
+
+[hidden] {
+    display: none !important;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
