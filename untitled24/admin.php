@@ -61,6 +61,11 @@ if ($conn->connect_error) {
                 <label>Zadaj predmet:</label>
                  <input type="text" name="predmety" class="form-control" required>
             </div>
+         <div>
+             <br>
+             <label>Zadaj oddeľovač:</label>
+             <input type="text" name="oddelovac" class="form-control" required>
+         </div>
             <br>
             <div>
                 <input type="submit" class="btn btn-primary" name="submit" />
@@ -171,6 +176,7 @@ if ( isset($_POST["submit"]) ) {
 
     $year = htmlspecialchars($_POST["years"]);
     $predmet = htmlspecialchars($_POST["predmety"]);
+    $oddelovac = htmlspecialchars($_POST["oddelovac"]);
     $id = 0;
 
     $sql3 = "SELECT id_predmet FROM predmet WHERE nazov ='$predmet'";
@@ -225,7 +231,7 @@ if ( isset($_POST["submit"]) ) {
 
         echo "File opened.<br />";
 
-        while (($data = fgetcsv($file, 1000, ";")) !== FALSE) {
+        while (($data = fgetcsv($file, 1000, $oddelovac)) !== FALSE) {
             // Each individual array is being pushed into the nested array
             $result[] = $data;
 
@@ -280,6 +286,7 @@ if ( isset($_POST["submit"]) ) {
             }
         }
     }
+
     header("Refresh:0");
 
 }
@@ -332,7 +339,7 @@ if ( isset($_POST["submit"]) ) {
 
         $temp = 0;
         $temp2 = 0;
-        $sql7 = "SELECT z.nazov,z.hodnota,z.id_uzivatel,u.Meno,v.znamka,v.spolu,z.id_zaznam FROM zaznam z JOIN uzivatel u ON u.id_uzivatel = z.id_uzivatel JOIN vysledky v ON z.id_uzivatel = v.id_uzivatel WHERE z.obdobie = '$year' AND z.id_predmet = '$id' AND v.id_predmet = '$id' AND v.obdobie = '$year' GROUP BY z.nazov,z.hodnota,z.id_uzivatel,u.Meno,v.znamka,v.spolu,z.id_zaznam ORDER BY z.id_zaznam";
+        $sql7 = "SELECT z.nazov,z.hodnota,z.id_uzivatel,u.Meno,v.znamka,v.spolu,z.id_zaznam FROM zaznam z JOIN uzivatel u ON u.id_uzivatel = z.id_uzivatel JOIN vysledky v ON z.id_uzivatel = v.id_uzivatel WHERE z.obdobie = '$year' AND z.id_predmet = '$id' AND v.id_predmet = '$id' AND v.obdobie = '$year' AND  GROUP BY z.nazov,z.hodnota,z.id_uzivatel,u.Meno,v.znamka,v.spolu,z.id_zaznam ORDER BY z.id_zaznam";
         $result = $conn->query($sql7);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
